@@ -6,6 +6,10 @@ on:
     tags: ['v*']
   pull_request:
 
+# Least-privilege default for all jobs; `publish` widens it locally for OIDC.
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest

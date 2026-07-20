@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Feeds new @tailwindcss/typography releases in as PRs so the drift test in
+  # test/drift.test.ts runs against each one. `increase` bumps the exact pin,
+  # so every release is a distinct PR (no floating inside the lockfile).
+  - package-ecosystem: bun
+    directory: "/"
+    schedule:
+      interval: weekly
+    versioning-strategy: increase
