@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - run: bun test
+      - run: bun run check
+      - run: bun run lint:pkg
+
+  # Dormant publish job. Flip on when the publish decision lands:
+  #   1. Set up OIDC trusted publishing for this package on npmjs.com
+  #      (post-2026-05-20 setups must select the "publish" action).
+  #   2. Add `prepublishOnly: "bun run build && bun test"` to package.json.
+  #   3. Uncomment the job below. No npm token needed - OIDC attaches
+  #      provenance automatically.
+  #
+  # publish:
+  #   needs: build-and-test
+  #   if: startsWith(github.ref, 'refs/tags/v')
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     id-token: write # OIDC trusted publishing + provenance
+  #   steps:
+  #     - uses: actions/checkout@v5
+  #     - uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: latest
+  #     - run: bun install --frozen-lockfile
+  #     - run: bun run build
+  #     - run: npm publish --access public
