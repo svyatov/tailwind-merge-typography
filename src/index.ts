@@ -7,10 +7,10 @@ export type GenericConfig = Config<string, string>
 export type ProseClassGroupId = 'prose' | 'prose-invert' | 'prose-size' | 'prose-color'
 
 /** The 5 built-in typography sizes (`@tailwindcss/typography` `src/styles.js`). */
-const SIZES = ['sm', 'base', 'lg', 'xl', '2xl']
+export const SIZES = ['sm', 'base', 'lg', 'xl', '2xl']
 
 /** The 22 built-in typography colors: 5 gray scales + 17 named link themes. */
-const COLORS = [
+export const COLORS = [
   'gray',
   'slate',
   'zinc',
