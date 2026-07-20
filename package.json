@@ -1,6 +1,6 @@
 {
   "name": "tailwind-merge-typography",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tailwind-merge plugin that teaches twMerge to resolve @tailwindcss/typography prose-* conflicts.",
   "keywords": [
     "tailwind-merge",
