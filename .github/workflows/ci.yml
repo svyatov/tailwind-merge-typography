@@ -10,17 +10,20 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bun run build
       - run: bun test --coverage --coverage-reporter=lcov --coverage-reporter=text
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           files: ./coverage/lcov.info
-        # Public repo: tokenless upload works, no secret needed.
+          token: ${{ secrets.CODECOV_TOKEN }}
+        # Codecov requires an upload token on a protected default branch, even
+        # for public repos. Add it once: `gh secret set CODECOV_TOKEN` with the
+        # value from the repo's page on codecov.io.
       - run: bun run check
       - run: bun run lint:pkg
 
@@ -38,11 +41,11 @@ jobs:
       id-token: write # OIDC trusted publishing + provenance
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
