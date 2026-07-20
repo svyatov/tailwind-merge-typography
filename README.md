@@ -1,5 +1,11 @@
 # tailwind-merge-typography
 
+[![npm version](https://img.shields.io/npm/v/tailwind-merge-typography?style=flat-square)](https://www.npmjs.com/package/tailwind-merge-typography)
+[![CI](https://img.shields.io/github/actions/workflow/status/svyatov/tailwind-merge-typography/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/svyatov/tailwind-merge-typography/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/codecov/c/github/svyatov/tailwind-merge-typography?style=flat-square)](https://codecov.io/gh/svyatov/tailwind-merge-typography)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/tailwind-merge-typography?style=flat-square)](https://bundlephobia.com/package/tailwind-merge-typography)
+[![license](https://img.shields.io/npm/l/tailwind-merge-typography?style=flat-square)](./LICENSE)
+
 Teach [`tailwind-merge`](https://github.com/dcastil/tailwind-merge) how to resolve conflicts between [`@tailwindcss/typography`](https://github.com/tailwindlabs/tailwindcss-typography) `prose-*` classes, so conditional prose variants collapse to the last one instead of piling up.
 
 `tailwind-merge` ships no knowledge of the typography plugin (it's a plugin, not core Tailwind), so out of the box it leaves conflicting prose classes untouched:
