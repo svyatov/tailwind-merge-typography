@@ -39,7 +39,8 @@
     "test": "bun test",
     "check": "biome check",
     "typecheck": "tsc --noEmit",
-    "lint:pkg": "publint && attw --pack . --profile esm-only"
+    "lint:pkg": "publint && attw --pack . --profile esm-only",
+    "prepublishOnly": "bun run build && bun test"
   },
   "peerDependencies": {
     "tailwind-merge": ">=2.0.0 <4"

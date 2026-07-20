@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
 
 jobs:
@@ -19,24 +20,29 @@ jobs:
       - run: bun run check
       - run: bun run lint:pkg
 
-  # Dormant publish job. Flip on when the publish decision lands:
-  #   1. Set up OIDC trusted publishing for this package on npmjs.com
-  #      (post-2026-05-20 setups must select the "publish" action).
-  #   2. Add `prepublishOnly: "bun run build && bun test"` to package.json.
-  #   3. Uncomment the job below. No npm token needed - OIDC attaches
-  #      provenance automatically.
-  #
-  # publish:
-  #   needs: build-and-test
-  #   if: startsWith(github.ref, 'refs/tags/v')
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     id-token: write # OIDC trusted publishing + provenance
-  #   steps:
-  #     - uses: actions/checkout@v5
-  #     - uses: oven-sh/setup-bun@v2
-  #       with:
-  #         bun-version: latest
-  #     - run: bun install --frozen-lockfile
-  #     - run: bun run build
-  #     - run: npm publish --access public
+  # Publishes on a pushed version tag (e.g. `git tag v1.0.1 && git push --tags`)
+  # via npm OIDC trusted publishing: no token, provenance attached automatically.
+  # One-time setup on npmjs.com: package -> Settings -> Trusted Publisher ->
+  # GitHub Actions, owner `svyatov`, repo `tailwind-merge-typography`,
+  # workflow file `ci.yml`, action `npm publish`. The package must already
+  # exist, so the very first version is published manually.
+  publish:
+    needs: build-and-test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # OIDC trusted publishing + provenance
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest # OIDC trusted publishing needs npm >= 11.5.1
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - run: npm publish --access public
