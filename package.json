@@ -50,7 +50,7 @@
     "@biomejs/biome": "^2.5.14",
     "@tailwindcss/typography": "0.5.20",
     "@types/bun": "^1.4.2",
-    "publint": "^0.3.24",
+    "publint": "^0.3.25",
     "tailwind-merge": "^3.7.0",
     "typescript": "^7.0.2"
   }
